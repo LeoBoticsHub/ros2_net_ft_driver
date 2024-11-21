@@ -151,7 +151,7 @@ def generate_launch_description():
     declared_arguments.append(
         launch.actions.DeclareLaunchArgument(
             name="sensor_type",
-            default_value="ati_axia",
+            default_value="ati",
             description="Type of the F/T sensor.",
         )
     )
