@@ -39,6 +39,8 @@ from launch_ros.substitutions import FindPackageShare
 
 
 def launch_setup(context, *args, **kwargs):
+    sensor_namespace = LaunchConfiguration("namespace")
+    controller_yaml = LaunchConfiguration("controller_yaml")
     ip_address = LaunchConfiguration("ip_address")
     rdt_sampling_rate = LaunchConfiguration("rdt_sampling_rate")
     sensor_type = LaunchConfiguration("sensor_type")
@@ -77,46 +79,51 @@ def launch_setup(context, *args, **kwargs):
     robot_description_param = {"robot_description": robot_description_content}
 
     ft_controller = PathJoinSubstitution(
-        [FindPackageShare("net_ft_driver"), "config", "net_ft_broadcaster.yaml"]
+        # [FindPackageShare("net_ft_driver"), "config", "net_ft_broadcaster.yaml"]
+        [FindPackageShare("net_ft_driver"), "config", controller_yaml]
     )
 
     control_node = launch_ros.actions.Node(
+        namespace=sensor_namespace,
         package="controller_manager",
         executable="ros2_control_node",
         parameters=[robot_description_param, ft_controller],
     )
 
     robot_state_publisher_node = launch_ros.actions.Node(
+        namespace=sensor_namespace,
         package="robot_state_publisher",
         executable="robot_state_publisher",
         parameters=[robot_description_param],
     )
 
+
     force_torque_sensor_broadcaster_spawner = launch_ros.actions.Node(
+        namespace=sensor_namespace,
         package="controller_manager",
         executable="spawner",
         arguments=[
             "force_torque_sensor_broadcaster",
-            "--controller-manager",
-            "/controller_manager",
+            # "--controller-manager",
+            # "/sensor/controller_manager",
         ],
     )
 
-    net_ft_diagnostic_broadcaster = launch_ros.actions.Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=[
-            "net_ft_diagnostic_broadcaster",
-            "-c",
-            "/controller_manager",
-        ],
-    )
+    # net_ft_diagnostic_broadcaster = launch_ros.actions.Node(
+    #     package="controller_manager",
+    #     executable="spawner",
+    #     arguments=[
+    #         "net_ft_diagnostic_broadcaster",
+    #         "-c",
+    #         "/controller_manager",
+    #     ],
+    # )
 
     nodes = [
         control_node,
         robot_state_publisher_node,
         force_torque_sensor_broadcaster_spawner,
-        net_ft_diagnostic_broadcaster,
+        # net_ft_diagnostic_broadcaster,
     ]
 
     return nodes
@@ -124,6 +131,22 @@ def launch_setup(context, *args, **kwargs):
 
 def generate_launch_description():
     declared_arguments = []
+
+    declared_arguments.append(
+        launch.actions.DeclareLaunchArgument(
+            name="controller_yaml",
+            default_value="net_ft_broadcaster_namespace.yaml",
+            description="Yaml FIle for the ft_controller",
+        )
+    )
+
+    declared_arguments.append(
+        launch.actions.DeclareLaunchArgument(
+            name="namespace",
+            default_value="sensor",
+            description="Namespace for the sensor.",
+        )
+    )
 
     declared_arguments.append(
         launch.actions.DeclareLaunchArgument(

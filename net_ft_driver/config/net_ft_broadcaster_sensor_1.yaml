@@ -1,4 +1,5 @@
-controller_manager:
+sensor_1:
+  controller_manager:
     ros__parameters:
       update_rate: 500  # Hz
 
@@ -20,4 +21,3 @@ controller_manager:
         - torque.z
       frame_id: tool0
       topic_name: ft_data
-
