@@ -18,14 +18,15 @@ Software was tested with `ATI AXIA80` and `OnRobot HEX-E V2` and `ATI Net F/T se
 
 ## Installation
 
-Installing dependencies:
+Installing dependencies, go in **src** and:
 
 ```Bash
 sudo apt update
 sudo apt dist-upgrade
 rosdep update
-git -C src clone --branch galactic https://github.com/gbartyzel/ros2_net_ft_driver.git
+git clone git@github.com:LeoBoticsHub/ros2_net_ft_driver.git
 sudo apt install -y libasio-dev libcurlpp-dev
+cd ..
 rosdep install --ignore-src --from-paths src -y -r --rosdistro $ROS_DISTRO
 ```
 
@@ -41,7 +42,7 @@ source install/local_setup.sh
 Launch the controller:
 
 ```Bash
-ros2 launch net_ft_driver net_ft_broadcaster.launch.py ip_address:=192.168.1.1 sensor_type:=ati_axia rdt_sampling_rate:=500
+ros2 launch net_ft_driver net_ft_broadcaster.launch.py ip_address:=192.168.4.212 sensor_type:=ati rdt_sampling_rate:=500
 ```
 
 where:

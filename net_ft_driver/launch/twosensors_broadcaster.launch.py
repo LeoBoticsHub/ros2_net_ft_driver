@@ -23,7 +23,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(single_sensor_launch_path),
         launch_arguments={
             "namespace": "sensor_2",
-            "ip_address": "192.168.0.212",
+            "ip_address": "192.168.4.212",
             "controller_yaml": "net_ft_broadcaster_sensor_2.yaml",
         }.items(),
     )
