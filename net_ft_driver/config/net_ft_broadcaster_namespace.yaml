@@ -1,7 +1,7 @@
 sensor:
   controller_manager:
     ros__parameters:
-      update_rate: 500  # Hz
+      update_rate: 1000  # Hz
 
       force_torque_sensor_broadcaster:
         type: force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster

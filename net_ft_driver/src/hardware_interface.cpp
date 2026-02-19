@@ -60,6 +60,7 @@ hardware_interface::CallbackReturn NetFtHardwareInterface::on_init(const hardwar
   ip_address_ = info_.hardware_parameters["ip_address"];
   sensor_type_ = info_.hardware_parameters["sensor_type"];
   int rdt_rate = std::stoi(info_.hardware_parameters["rdt_sampling_rate"]);
+  std::cout << "RDT sampling rate: " << rdt_rate << std::endl;
   int internal_filter_rate = std::stoi(info_.hardware_parameters["internal_filter_rate"]);
 
   driver_ = NetFTInterface::create(sensor_type_, ip_address_);

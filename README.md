@@ -52,3 +52,5 @@ where:
 - `rdt_sampling_rate`: the sampling rate of the RDT communication, please refer to
   the sensor manuals for the frequency range.
 - `use_hardware_biasing`: whether to use built-in sensor biasing.
+
+NOTE: to change `rdt_sampling_rate` the argument in the launch is NOT working. You have to change the `update_rate` in the ros param of the controller manager in the folder `net_ft_driver\config` 
